@@ -6,7 +6,7 @@
 
 Выполнить в командной строке из папки с проектом
 
-    $ lessc styles.less
+    $ lessc styles.less styles.css
 
 В файле index.html поменять строчку
 
