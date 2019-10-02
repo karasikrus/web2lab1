@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>Hello World</title>
+    <meta charset="utf-8">
+
+    <script src="handlebars-v4.3.1.js"></script>
+
+    <script id="text-template" type="text/x-handlebars-template">
+        city: <b>{{city}}</b>
+    </script>
+
+</head>
+<body>
+
+City input: <input id="city">
+<button id="search-city">Погода!</button>
+
+<hr>
+<div id="result"></div>
+
+<script>
+    function show_city() {
+        var city = document.getElementById('city').value;
+
+        var source   = document.getElementById('text-template').innerHTML;
+        var template = Handlebars.compile(source);
+        var context = {city: city};
+        var html    = template(context);
+
+        document.getElementById('result').innerHTML = html;
+    }
+
+    document.getElementById('search-city').addEventListener('click', show_city);
+</script>
+
+
+</body>
+</html>
