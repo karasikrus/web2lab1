@@ -84,7 +84,7 @@
             let weatherHtml = template(context);
             document.getElementById('result').innerHTML = weatherHtml;
         }).catch(err =>
-            document.getElementById('result').innerHTML = "ой");
+            document.getElementById('result').innerHTML = "ой, такого города нет");
     }
 
     document.getElementById('search-city').addEventListener('click', showWeather);
