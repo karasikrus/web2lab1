@@ -4,6 +4,8 @@
     <meta charset="utf-8">
 
     <script src="handlebars-v4.3.1.js"></script>
+    <link rel="stylesheet/less" type="text/css" href="styles.less" />
+    <script src="less.min.js" type="text/javascript"></script>
 
     <script id="text-template" type="text/x-handlebars-template">
         city: <b>{{city}}</b>
@@ -15,7 +17,7 @@
 
         <section id="city-name"> <b>{{city}}</b></section>
         <section id="weather-section">
-            <section id="temp">{{temp}} °C </section>
+            <section id="temp"><div>{{temp}} °C </div></section>
             <section id="info">
                 <div id="humidity">Humidity: {{humidity}} %</div>
                 <div id="wind">Wind speed: {{wind}} m/s</div>
