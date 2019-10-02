@@ -14,10 +14,11 @@
         <div> <b>грузится...</b></div>
     </script>
     <script id="weather-template" type="text/x-handlebars-template">
+        <section id="weather-result">
 
         <section id="city-name"> <b>{{city}}</b></section>
         <section id="weather-section">
-            <section id="temp"><div>{{temp}} °C </div></section>
+            <section id="temp"><div><b>{{temp}}</b> °C   </div></section>
             <section id="info">
                 <div id="humidity">Humidity: {{humidity}} %</div>
                 <div id="wind">Wind speed: {{wind}} m/s</div>
@@ -25,16 +26,18 @@
                 <div id="weather-name">{{weatherInfo}}</div>
             </section>
         </section>
+        </section>
 
     </script>
 
 </head>
 <body>
 
-City input: <input id="city">
-<button id="search-city">Погода!</button>
+<form id="search" onsubmit="showWeather(); return false">
+    <input type="text" placeholder="City" name="search" id="city">
+    <button type="submit" id="city-button">Get weather!</button>
+</form>
 
-<hr>
 <div id="result"></div>
 
 <script>
@@ -71,7 +74,8 @@ City input: <input id="city">
 
         let loadingSource = document.getElementById('loading-template').innerHTML;
         let loadingHtml = Handlebars.compile(loadingSource);
-        document.getElementById('result').innerHTML = loadingHtml;
+        let html = loadingHtml();
+        document.getElementById('result').innerHTML = html;
 
         getWeather(city).then(weather =>{
             let source   = document.getElementById('weather-template').innerHTML;
