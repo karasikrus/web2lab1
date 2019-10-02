@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Hello World</title>
+    <title>lab1</title>
     <meta charset="utf-8">
 
     <script src="handlebars-v4.3.1.js"></script>
@@ -10,6 +10,20 @@
     </script>
     <script id="loading-template" type="text/x-handlebars-template">
         <div> <b>грузится...</b></div>
+    </script>
+    <script id="weather-template" type="text/x-handlebars-template">
+
+        <section id="city-name"> <b>{{city}}</b></section>
+        <section id="weather-section">
+            <section id="temp">{{temp}} °C </section>
+            <section id="info">
+                <div id="humidity">Humidity: {{humidity}} %</div>
+                <div id="wind">Wind speed: {{wind}} m/s</div>
+                <div id="pressure">Atmospheric pressure: {{pressure}} hPa</div>
+                <div id="weather-name">{{weatherInfo}}</div>
+            </section>
+        </section>
+
     </script>
 
 </head>
@@ -23,12 +37,12 @@ City input: <input id="city">
 
 <script>
     function show_city() {
-        var city = document.getElementById('city').value;
+        let city = document.getElementById('city').value;
 
-        var source   = document.getElementById('text-template').innerHTML;
-        var template = Handlebars.compile(source);
-        var context = {city: city};
-        var html    = template(context);
+        let source   = document.getElementById('text-template').innerHTML;
+        let template = Handlebars.compile(source);
+        let context = {city: city};
+        let html    = template(context);
 
         document.getElementById('result').innerHTML = html;
     }
@@ -36,13 +50,10 @@ City input: <input id="city">
     const ApiKey = '4d7bab9a12e7e664eeadf2d29a195b1f';
     const ApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
     async function getWeather(city) {
-        console.log("aaa");
         let url = new URL(ApiUrl);
-        console.log(url);
         url.searchParams.append('appid', ApiKey);
         url.searchParams.append('units', 'metric');
         url.searchParams.append('q', city);
-        console.log(url);
         let response = await fetch(url);
 
         if (response.status === 200) {
@@ -52,16 +63,21 @@ City input: <input id="city">
                 .then(json => Promise.reject(json))
         }
     }
+
     function showWeather(){
         let city = document.getElementById('city').value;
 
         let loadingSource = document.getElementById('loading-template').innerHTML;
         let loadingHtml = Handlebars.compile(loadingSource);
         document.getElementById('result').innerHTML = loadingHtml;
-        console.log('eee');
 
-        getWeather(city).then(wheather =>
-            document.getElementById('result').innerHTML = wheather).catch(err =>
+        getWeather(city).then(weather =>{
+            let source   = document.getElementById('weather-template').innerHTML;
+            let template = Handlebars.compile(source);
+            let context = {city: weather.name, temp: weather.main.temp, humidity: weather.main.humidity, wind: weather.wind.speed, pressure: weather.main.pressure, weatherInfo: weather.weather[0].description};
+            let weatherHtml = template(context);
+            document.getElementById('result').innerHTML = weatherHtml;
+        }).catch(err =>
             document.getElementById('result').innerHTML = "ой");
     }
 
