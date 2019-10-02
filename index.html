@@ -8,6 +8,9 @@
     <script id="text-template" type="text/x-handlebars-template">
         city: <b>{{city}}</b>
     </script>
+    <script id="loading-template" type="text/x-handlebars-template">
+        <div> <b>грузится...</b></div>
+    </script>
 
 </head>
 <body>
@@ -30,7 +33,39 @@ City input: <input id="city">
         document.getElementById('result').innerHTML = html;
     }
 
-    document.getElementById('search-city').addEventListener('click', show_city);
+    const ApiKey = '4d7bab9a12e7e664eeadf2d29a195b1f';
+    const ApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
+    async function getWeather(city) {
+        console.log("aaa");
+        let url = new URL(ApiUrl);
+        console.log(url);
+        url.searchParams.append('appid', ApiKey);
+        url.searchParams.append('units', 'metric');
+        url.searchParams.append('q', city);
+        console.log(url);
+        let response = await fetch(url);
+
+        if (response.status === 200) {
+            return await response.json();
+        } else {
+            await response.json()
+                .then(json => Promise.reject(json))
+        }
+    }
+    function showWeather(){
+        let city = document.getElementById('city').value;
+
+        let loadingSource = document.getElementById('loading-template').innerHTML;
+        let loadingHtml = Handlebars.compile(loadingSource);
+        document.getElementById('result').innerHTML = loadingHtml;
+        console.log('eee');
+
+        getWeather(city).then(wheather =>
+            document.getElementById('result').innerHTML = wheather).catch(err =>
+            document.getElementById('result').innerHTML = "ой");
+    }
+
+    document.getElementById('search-city').addEventListener('click', showWeather);
 </script>
 
 
