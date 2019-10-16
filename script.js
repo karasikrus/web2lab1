@@ -6,6 +6,14 @@
 const ApiKey = '4d7bab9a12e7e664eeadf2d29a195b1f';
 const ApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
+document.getElementById('search').addEventListener('submit', function (evt) {
+    evt.preventDefault();
+
+    let city = document.getElementById('city').value;
+    getAndShowWeather(city)
+})
+
+
 async function getWeather(city) {
     let url = new URL(ApiUrl);
     url.searchParams.append('appid', ApiKey);
@@ -21,35 +29,50 @@ async function getWeather(city) {
     }
 }
 
+function formatWeatherData(data) {
+    let source = document.getElementById('weather-template').innerHTML;
+    let template = Handlebars.compile(source);
+    let context = {
+        city: data.name,
+        temp: data.main.temp,
+        humidity: data.main.humidity,
+        wind: data.wind.speed,
+        pressure: data.main.pressure,
+        weatherInfo: data.weather[0].description
+    };
+    let weatherHtml = template(context);
+    return weatherHtml;
 
-function getAndShowWeather() {
-    let city = document.getElementById('city').value;
+}
 
+function showLoading() {
     let loadingSource = document.getElementById('loading-template').innerHTML;
     let loadingHtml = Handlebars.compile(loadingSource);
     let html = loadingHtml();
     document.getElementById('result').innerHTML = html;
+}
+
+function showError() {
+    let source = document.getElementById('error-template').innerHTML;
+    let template = Handlebars.compile(source);
+    document.getElementById('result').innerHTML = template();
+}
+
+function showWeatherData(weather) {
+    document.getElementById('result').innerHTML = formatWeatherData(weather);
+}
+
+
+function getAndShowWeather(city) {
+
+    showLoading();
 
     getWeather(city).then(weather => {
-        let source = document.getElementById('weather-template').innerHTML;
-        let template = Handlebars.compile(source);
-        let context = {
-            city: weather.name,
-            temp: weather.main.temp,
-            humidity: weather.main.humidity,
-            wind: weather.wind.speed,
-            pressure: weather.main.pressure,
-            weatherInfo: weather.weather[0].description
-        };
-        let weatherHtml = template(context);
-        document.getElementById('result').innerHTML = weatherHtml;
+        showWeatherData(weather);
     }).catch(err => {
-            let source = document.getElementById('error-template').innerHTML;
-            let template = Handlebars.compile(source);
-            document.getElementById('result').innerHTML = template();
+            showError();
         }
-    );
-    return false
+    )
 }
 
 
