@@ -9,7 +9,8 @@ const ApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
 document.getElementById('search').addEventListener('submit', function (evt) {
     evt.preventDefault();
 
-    let city = document.getElementById('city').value;
+    let city = evt.target[0].value;
+
     getAndShowWeather(city)
 })
 
