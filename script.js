@@ -31,8 +31,7 @@ async function getWeather(city) {
 }
 
 function formatWeatherData(data) {
-    let source = document.getElementById('weather-template').innerHTML;
-    let template = Handlebars.compile(source);
+
     let context = {
         city: data.name,
         temp: data.main.temp,
@@ -41,8 +40,7 @@ function formatWeatherData(data) {
         pressure: data.main.pressure,
         weatherInfo: data.weather[0].description
     };
-    let weatherHtml = template(context);
-    return weatherHtml;
+    return context;
 
 }
 
@@ -59,8 +57,11 @@ function showError() {
     document.getElementById('result').innerHTML = template();
 }
 
-function showWeatherData(weather) {
-    document.getElementById('result').innerHTML = formatWeatherData(weather);
+function showWeatherData(weatherContext) {
+    let source = document.getElementById('weather-template').innerHTML;
+    let template = Handlebars.compile(source);
+    let weatherHtml = template(weatherContext);
+    document.getElementById('result').innerHTML = weatherHtml;
 }
 
 
@@ -69,7 +70,8 @@ function getAndShowWeather(city) {
     showLoading();
 
     getWeather(city).then(weather => {
-        showWeatherData(weather);
+        let weatherContext = formatWeatherData(weather);
+        showWeatherData(weatherContext);
     }).catch(err => {
             showError();
         }
