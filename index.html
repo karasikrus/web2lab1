@@ -33,7 +33,7 @@
 </head>
 <body>
 
-<form id="search" onsubmit="showWeather(); return false">
+<form id="search" onsubmit="return showWeather()">
     <input type="text" placeholder="City" name="search" id="city">
     <button type="submit" id="city-button">Get weather!</button>
 </form>
@@ -41,16 +41,7 @@
 <div id="result"></div>
 
 <script>
-    function show_city() {
-        let city = document.getElementById('city').value;
-
-        let source   = document.getElementById('text-template').innerHTML;
-        let template = Handlebars.compile(source);
-        let context = {city: city};
-        let html    = template(context);
-
-        document.getElementById('result').innerHTML = html;
-    }
+    // return false, error template, разделить на функции, не ходить в дом
 
     const ApiKey = '4d7bab9a12e7e664eeadf2d29a195b1f';
     const ApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
@@ -85,6 +76,7 @@
             document.getElementById('result').innerHTML = weatherHtml;
         }).catch(err =>
             document.getElementById('result').innerHTML = "ой, такого города нет");
+        return false
     }
 
 </script>
