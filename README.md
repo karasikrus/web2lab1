@@ -1,17 +1,13 @@
 # web2lab1
+Для изменения стилей с помощью less
+
 Установить less
    
 
      $ npm install -g less
 
-Выполнить в командной строке из папки с проектом
+Выполнить в командной строке из папки с проектом на ветке master
 
     $ lessc styles.less styles.css
 
-В файле index.html поменять строчку
-
-    <link rel="stylesheet/less" type="text/css" href="styles.less" />
-
-на строчку
-
-    <link rel="stylesheet/less" type="text/css" href="styles.css" />
+Добавить файл styles.css в проект на ветке css
