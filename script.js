@@ -22,7 +22,6 @@ async function getWeather(city) {
 }
 
 
-
 function getAndShowWeather() {
     let city = document.getElementById('city').value;
 
@@ -47,7 +46,6 @@ function getAndShowWeather() {
     }).catch(err => {
             let source = document.getElementById('error-template').innerHTML;
             let template = Handlebars.compile(source);
-        let weatherHtml = template()
             document.getElementById('result').innerHTML = template();
         }
     );
