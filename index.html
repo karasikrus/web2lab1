@@ -4,28 +4,35 @@
     <meta charset="utf-8">
 
     <script src="handlebars-v4.3.1.js"></script>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
     <script src="less.min.js" type="text/javascript"></script>
 
     <script id="text-template" type="text/x-handlebars-template">
         city: <b>{{city}}</b>
     </script>
+
+    <script id="error-template" type="text/x-handlebars-template">
+        ой, такого города нет
+    </script>
+
     <script id="loading-template" type="text/x-handlebars-template">
-        <div> <b>грузится...</b></div>
+        <div><b>грузится...</b></div>
     </script>
     <script id="weather-template" type="text/x-handlebars-template">
         <section id="weather-result">
 
-        <section id="city-name"> <b>{{city}}</b></section>
-        <section id="weather-section">
-            <section id="temp"><div><b>{{temp}}</b> °C   </div></section>
-            <section id="info">
-                <div id="humidity">Humidity: {{humidity}} %</div>
-                <div id="wind">Wind speed: {{wind}} m/s</div>
-                <div id="pressure">Atmospheric pressure: {{pressure}} hPa</div>
-                <div id="weather-name">{{weatherInfo}}</div>
+            <section id="city-name"><b>{{city}}</b></section>
+            <section id="weather-section">
+                <section id="temp">
+                    <div><b>{{temp}}</b> °C</div>
+                </section>
+                <section id="info">
+                    <div id="humidity">Humidity: {{humidity}} %</div>
+                    <div id="wind">Wind speed: {{wind}} m/s</div>
+                    <div id="pressure">Atmospheric pressure: {{pressure}} hPa</div>
+                    <div id="weather-name">{{weatherInfo}}</div>
+                </section>
             </section>
-        </section>
         </section>
 
     </script>
@@ -33,53 +40,15 @@
 </head>
 <body>
 
-<form id="search" onsubmit="return showWeather()">
+<form id="search" onsubmit="return getAndShowWeather()">
     <input type="text" placeholder="City" name="search" id="city">
     <button type="submit" id="city-button">Get weather!</button>
 </form>
 
 <div id="result"></div>
 
-<script>
-    // return false, error template, разделить на функции, не ходить в дом
+<script src="script.js"></script>
 
-    const ApiKey = '4d7bab9a12e7e664eeadf2d29a195b1f';
-    const ApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
-    async function getWeather(city) {
-        let url = new URL(ApiUrl);
-        url.searchParams.append('appid', ApiKey);
-        url.searchParams.append('units', 'metric');
-        url.searchParams.append('q', city);
-        let response = await fetch(url);
-
-        if (response.status === 200) {
-            return await response.json();
-        } else {
-            await response.json()
-                .then(json => Promise.reject(json))
-        }
-    }
-
-    function showWeather(){
-        let city = document.getElementById('city').value;
-
-        let loadingSource = document.getElementById('loading-template').innerHTML;
-        let loadingHtml = Handlebars.compile(loadingSource);
-        let html = loadingHtml();
-        document.getElementById('result').innerHTML = html;
-
-        getWeather(city).then(weather =>{
-            let source   = document.getElementById('weather-template').innerHTML;
-            let template = Handlebars.compile(source);
-            let context = {city: weather.name, temp: weather.main.temp, humidity: weather.main.humidity, wind: weather.wind.speed, pressure: weather.main.pressure, weatherInfo: weather.weather[0].description};
-            let weatherHtml = template(context);
-            document.getElementById('result').innerHTML = weatherHtml;
-        }).catch(err =>
-            document.getElementById('result').innerHTML = "ой, такого города нет");
-        return false
-    }
-
-</script>
 
 
 </body>
