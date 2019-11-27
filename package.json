@@ -1,0 +1,25 @@
+{
+  "name": "web2lab1",
+  "version": "1.0.0",
+  "description": "Для изменения стилей с помощью less",
+  "main": "index.html",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karasikrus/web2lab1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karasikrus/web2lab1/issues"
+  },
+  "homepage": "https://github.com/karasikrus/web2lab1#readme",
+  "dependencies": {
+    "fetch-mock": "^8.0.0",
+    "lodash": "^4.17.15",
+    "mocha": "^6.2.2",
+    "node-fetch": "^2.6.0"
+  }
+}

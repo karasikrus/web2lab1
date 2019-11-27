@@ -1,18 +1,8 @@
-// разделить на функции, не ходить в дом
-
-//import * as Handlebars from "./handlebars-v4.3.1";
 
 
 const ApiKey = '4d7bab9a12e7e664eeadf2d29a195b1f';
 const ApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
-document.getElementById('search').addEventListener('submit', function (evt) {
-    evt.preventDefault();
-
-    let city = evt.target[0].value;
-
-    getAndShowWeather(city)
-})
 
 
 async function getWeather(city) {
@@ -40,6 +30,7 @@ function formatWeatherData(data) {
         pressure: data.main.pressure,
         weatherInfo: data.weather[0].description
     };
+   // console.log(JSON.stringify(context));
     return context;
 
 }
@@ -78,4 +69,4 @@ function getAndShowWeather(city) {
     )
 }
 
-
+module.exports = {formatWeatherData, getWeather};
