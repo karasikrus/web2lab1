@@ -42,4 +42,13 @@ const apiJSON = {
   "cod": 200
 }
 
-module.exports = {apiJSON};
+const apiErrorJSON = {
+    "coord": {
+        "lon": 36.18,
+        "lat": 51.74
+    },
+    "cod": 400
+}
+
+
+module.exports = {apiJSON, apiErrorJSON};

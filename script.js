@@ -1,8 +1,5 @@
-
-
 const ApiKey = '4d7bab9a12e7e664eeadf2d29a195b1f';
 const ApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
-
 
 
 async function getWeather(city) {
@@ -15,7 +12,7 @@ async function getWeather(city) {
     if (response.status === 200) {
         return await response.json();
     } else {
-        await response.json()
+        return await response.json()
             .then(json => Promise.reject(json))
     }
 }
@@ -30,7 +27,6 @@ function formatWeatherData(data) {
         pressure: data.main.pressure,
         weatherInfo: data.weather[0].description
     };
-   // console.log(JSON.stringify(context));
     return context;
 
 }
@@ -56,11 +52,11 @@ function showWeatherData(weatherContext) {
 }
 
 
-function getAndShowWeather(city) {
+async function getAndShowWeather(city) {
 
     showLoading();
 
-    getWeather(city).then(weather => {
+    await getWeather(city).then(weather => {
         let weatherContext = formatWeatherData(weather);
         showWeatherData(weatherContext);
     }).catch(err => {
@@ -69,4 +65,4 @@ function getAndShowWeather(city) {
     )
 }
 
-module.exports = {formatWeatherData, getWeather};
+module.exports = {formatWeatherData, getWeather, showLoading, showError, getAndShowWeather, showWeatherData};
